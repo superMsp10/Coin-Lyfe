@@ -6,7 +6,7 @@ public class PlayerMover : MonoBehaviour
 {
     Rigidbody rigiBod;
     [SerializeField]
-    float speed = 10f, jumpSpeed = 5f, airSpeed = .5f;
+    float speed = 10f, jumpSpeed = 5f, airSpeed = .5f, wallJumpSpeed = 1.5f;
     [SerializeField]
     CollisionChecker groundCheck, wallCheck;
     int airJumpsLeft = 1;
@@ -20,44 +20,64 @@ public class PlayerMover : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         bool grounded = groundCheck.isCollided,
          walled = wallCheck.isCollided;
+        Vector3 inputVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 targetVelocity = rigiBod.velocity;
 
-        Debug.Log(grounded + " " +  walled);
-        Vector3 inputVelocity = rigiBod.velocity;
+       
 
-        if (Mathf.Abs(Input.GetAxis("Jump")) > 0.5f)
+        if (grounded)
         {
+            //Grounded
+            targetVelocity.x = inputVelocity.x * speed;
+            targetVelocity.z = inputVelocity.z * speed;
+        }
+        else if (!walled)
+        {
+
+            Debug.Log(inputVelocity);
+            //Airborn
+            if (Mathf.Abs(inputVelocity.x) > .1)
+            {
+                targetVelocity.x = inputVelocity.x * speed * airSpeed;
+            }
+            if (Mathf.Abs(inputVelocity.z) > .1)
+            {
+                targetVelocity.z = inputVelocity.z * speed * airSpeed;
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+            Debug.Log("Jump try");
             if (grounded)
             {
-                inputVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
+
+                Debug.Log("Grounded jump");
+                targetVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
+            }
+            else if (walled)
+            {
+
+                Debug.Log("Wall jump");
+                targetVelocity.x = -wallJumpSpeed * wallCheck.collisionDirection.x;
+                targetVelocity.y = wallJumpSpeed/2;
             }
             else if (airJumpsLeft > 0)
             {
-
-                Debug.Log("Hello");
-                inputVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
+                Debug.Log("Air jump");
+                targetVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
                 airJumpsLeft--;
             }
 
 
         }
 
-        if (grounded)
-        {
-            //Grounded
-            inputVelocity.x = Input.GetAxis("Horizontal") * speed;
-            inputVelocity.z = Input.GetAxis("Vertical") * speed;
-        }
-        else if (!walled)
-        {
-            //Airborn
-            inputVelocity.x = Input.GetAxis("Horizontal") * speed * airSpeed;
-            inputVelocity.z = Input.GetAxis("Vertical") * speed * airSpeed;
-        }
-
-        rigiBod.velocity = inputVelocity;
+        rigiBod.velocity = targetVelocity;
     }
 }
