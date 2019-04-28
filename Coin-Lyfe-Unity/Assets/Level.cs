@@ -24,7 +24,7 @@ public class Level : MonoBehaviour
 
     public void OnLevelStart()
     {
-
+        gameObject.SetActive(true);
     }
 
     public void OnLevelReset()
@@ -34,7 +34,7 @@ public class Level : MonoBehaviour
 
     public void OnLevelEnd()
     {
-
+        gameObject.SetActive(false);
     }
 
 

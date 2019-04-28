@@ -14,6 +14,9 @@ public class PlayerCollisionHandler : MonoBehaviour
             case "Enemy":
                 GameManager.instance.levManage.ResetCurrentLevel();
                 break;
+            case "EnemyEnd":
+                other.GetComponent<Enemy>().End();
+                break;
             default:
                 break;
         }

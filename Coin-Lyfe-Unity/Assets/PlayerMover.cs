@@ -11,7 +11,10 @@ public class PlayerMover : MonoBehaviour
     CollisionChecker groundCheck, wallCheck;
     int airJumpsLeft = 1;
 
-
+    public void Reset()
+    {
+       airJumpsLeft = 1;
+    }
 
     // Start is called before the first frame update
     void Start()

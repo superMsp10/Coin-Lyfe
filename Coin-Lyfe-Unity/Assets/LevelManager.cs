@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] Level[] levels;
-    
+
     int currLevel = 0;
     GameObject player;
 
@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(player.transform.position.y < levels[currLevel].yMin)
+        if (player.transform.position.y < levels[currLevel].yMin)
         {
             ResetCurrentLevel();
         }
@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
     public void ResetCurrentLevel()
     {
         levels[currLevel].OnLevelReset();
+        ResetEnemies();
         SpawnPlayer();
     }
 
@@ -47,13 +48,24 @@ public class LevelManager : MonoBehaviour
             currLevel++;
         }
         levels[currLevel].OnLevelStart();
+        ResetEnemies();
         SpawnPlayer();
     }
 
     public void SpawnPlayer()
     {
+        player.GetComponent<PlayerMover>().Reset();
         player.transform.position = levels[currLevel].spawnSpot.position;
         player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    public void ResetEnemies()
+    {
+        Enemy[] enemies = levels[currLevel].GetComponentsInChildren<Enemy>(true);
+        foreach (Enemy e in enemies)
+        {
+            e.Reset();
+        }
     }
 
 }
