@@ -5,14 +5,22 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public LevelManager levManage
+    {
+        get
+        {
+            return _levManager;
+        }
+    }
+
     [SerializeField]
-    LevelManager levManager;
+    LevelManager _levManager;
     [SerializeField]
     int startLevel = 0;
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -25,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        levManager.StartLevels(startLevel);
+        _levManager.StartLevels(startLevel);
     }
 
 
