@@ -15,8 +15,6 @@ public class Enemy : MonoBehaviour
     {
         startPos = transform.position;
         startRot = transform.rotation;
-
-        Debug.Log(startPos);
         pf = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
 

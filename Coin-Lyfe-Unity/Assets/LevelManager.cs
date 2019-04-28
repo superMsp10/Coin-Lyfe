@@ -11,6 +11,10 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        foreach (var item in FindObjectsOfType<Level>())
+        {
+            item.gameObject.SetActive(false);
+        } 
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
