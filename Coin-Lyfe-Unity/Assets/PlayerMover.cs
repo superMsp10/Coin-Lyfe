@@ -37,8 +37,6 @@ public class PlayerMover : MonoBehaviour
         }
         else if (!walled)
         {
-
-            Debug.Log(inputVelocity);
             //Airborn
             if (Mathf.Abs(inputVelocity.x) > .1)
             {
