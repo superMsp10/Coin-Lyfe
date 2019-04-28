@@ -6,9 +6,13 @@ public class PlayerMover : MonoBehaviour
 {
     Rigidbody rigiBod;
     [SerializeField]
-    float speed = 10f, jumpSpeed = 5f;
+    float speed = 10f, jumpSpeed = 5f, airSpeed = .5f;
     [SerializeField]
-    GroundChecker groundCheck;
+    CollisionChecker groundCheck, wallCheck;
+    int airJumpsLeft = 1;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,13 +22,42 @@ public class PlayerMover : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float yVelo = rigiBod.velocity.y;
-        if(Mathf.Abs(Input.GetAxis("Jump")) > 0.5f)
+        bool grounded = groundCheck.isCollided,
+         walled = wallCheck.isCollided;
+
+        Debug.Log(grounded + " " +  walled);
+        Vector3 inputVelocity = rigiBod.velocity;
+
+        if (Mathf.Abs(Input.GetAxis("Jump")) > 0.5f)
         {
-            yVelo = Input.GetAxis("Jump") * jumpSpeed;
+            if (grounded)
+            {
+                inputVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
+            }
+            else if (airJumpsLeft > 0)
+            {
+
+                Debug.Log("Hello");
+                inputVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
+                airJumpsLeft--;
+            }
+
+
         }
-        Vector3 inputVelocity = (new Vector3(Input.GetAxis("Horizontal") * speed, yVelo, Input.GetAxis("Vertical") * speed));
-        if (groundCheck.isGrounded)
-            rigiBod.velocity = inputVelocity;
+
+        if (grounded)
+        {
+            //Grounded
+            inputVelocity.x = Input.GetAxis("Horizontal") * speed;
+            inputVelocity.z = Input.GetAxis("Vertical") * speed;
+        }
+        else if (!walled)
+        {
+            //Airborn
+            inputVelocity.x = Input.GetAxis("Horizontal") * speed * airSpeed;
+            inputVelocity.z = Input.GetAxis("Vertical") * speed * airSpeed;
+        }
+
+        rigiBod.velocity = inputVelocity;
     }
 }
