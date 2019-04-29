@@ -36420,8 +36420,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 915914216}
-  - {fileID: 1654933909}
   - {fileID: 1693566176}
+  - {fileID: 1654933909}
   m_Father: {fileID: 1616570027}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58644,7 +58644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levManager: {fileID: 1751918218}
-  startLevel: 0
+  startLevel: 2
 --- !u!1001 &1757254408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62108,11 +62108,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8fc479c198228934e87e5eddbf3c2e06, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
