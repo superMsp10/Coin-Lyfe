@@ -10,6 +10,8 @@ public class PlayerMover : MonoBehaviour
     [SerializeField]
     CollisionChecker groundCheck, wallCheck;
     int airJumpsLeft = 1;
+    public AudioSource sud;
+    public AudioClip jump;
 
     public void Reset()
     {
@@ -58,12 +60,13 @@ public class PlayerMover : MonoBehaviour
             Debug.Log("Jump try");
             if (grounded)
             {
-
+                sud.PlayOneShot(jump, .5f);
                 Debug.Log("Grounded jump");
                 targetVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
             }
             else if (walled)
             {
+                sud.PlayOneShot(jump, .3f);
 
                 Debug.Log("Wall jump");
                 targetVelocity.x = -wallJumpSpeed * wallCheck.collisionDirection.x;
@@ -71,6 +74,7 @@ public class PlayerMover : MonoBehaviour
             }
             else if (airJumpsLeft > 0)
             {
+                sud.PlayOneShot(jump, .25f);
                 Debug.Log("Air jump");
                 targetVelocity.y = Input.GetAxis("Jump") * jumpSpeed;
                 airJumpsLeft--;
